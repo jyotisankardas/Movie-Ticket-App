@@ -8,9 +8,11 @@ import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 @Entity(name = "TICKET_ENTITY")
 @Data
+@NoArgsConstructor
 public class TicketEntity {
 
     @Id
@@ -35,6 +37,18 @@ public class TicketEntity {
     @ManyToOne
     @JoinColumn(name = "movie_id", nullable = false)
     private MovieEntity movie;
+
+	public TicketEntity(String type, String title, double unitPrice, int noOfTickets, double price,
+			MovieEntity movie) {
+		super();
+		
+		this.type = type;
+		this.title = title;
+		this.unitPrice = unitPrice;
+		this.noOfTickets = noOfTickets;
+		this.price = price;
+		this.movie = movie;
+	}
 
     // Getters and setters
 }

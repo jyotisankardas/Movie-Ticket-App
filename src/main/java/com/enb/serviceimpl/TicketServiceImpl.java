@@ -6,8 +6,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.enb.Exception.InvalidTicketIdException;
+import com.enb.dao.MovieRepo;
 import com.enb.dao.TicketRepo;
+import com.enb.dto.MovieDto;
 import com.enb.dto.TicketDto;
+import com.enb.entity.MovieEntity;
 import com.enb.entity.TicketEntity;
 import com.enb.service.TicketService;
 
@@ -16,14 +19,24 @@ public class TicketServiceImpl implements TicketService {
 
     @Autowired
     private TicketRepo ticketRepo;
+    
+    @Autowired
+    private MovieRepo movieRepo;
 
     private TicketDto tdto;
 
     @Override
-    public TicketDto createTicket(TicketEntity ticketEntity) {
+    public TicketDto createTicket(TicketDto ticketdto) {
         
-    	ticketEntity.setPrice(ticketEntity.getUnitPrice() * ticketEntity.getNoOfTickets());
-    	TicketEntity save = ticketRepo.save(ticketEntity);
+    	ticketdto.setPrice(ticketdto.getUnitPrice() * ticketdto.getNoOfTickets());
+    	
+
+    	TicketEntity ticketentity=new TicketEntity(ticketdto.getType(), ticketdto.getTitle(), ticketdto.getUnitPrice(),
+   		ticketdto.getNoOfTickets(), ticketdto.getPrice(),movieRepo.findById(ticketdto.getMoviedto().getId()).get());
+    	
+    	
+    	
+    	TicketEntity save = ticketRepo.save(ticketentity);
     	//TicketEntity save = null;
     	
     	tdto=new TicketDto();
@@ -33,6 +46,8 @@ public class TicketServiceImpl implements TicketService {
     		tdto.setTitle(save.getTitle());
     		tdto.setType(save.getType());
     		tdto.setUnitPrice(save.getUnitPrice());
+    		tdto.setId(save.getId());
+    		tdto.setMoviedto(entityToDto(save.getMovie()));
     	}
     	else 
     		throw new InvalidTicketIdException("Ticket is not created");
@@ -41,6 +56,19 @@ public class TicketServiceImpl implements TicketService {
     	
         return tdto;
     }
+    
+    public static MovieDto entityToDto(MovieEntity movieEntity) {
+    	MovieDto moviedto = new MovieDto();
+        
+    	moviedto.setDirector(movieEntity.getDirector());
+    	moviedto.setTitle(movieEntity.getTitle());
+    	moviedto.setLanguage(movieEntity.getLanguage());
+    	moviedto.setYear(movieEntity.getYear());
+    	moviedto.setId(movieEntity.getId());
+    	//moviedto.setTickets(movieEntity.getTickets().stream().collect(Collectors.toList()));    
+    	return moviedto;
+    }
+    
 
     @Override
     public TicketDto getTicketById(int id) {

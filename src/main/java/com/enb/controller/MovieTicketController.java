@@ -12,7 +12,6 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.enb.dto.MovieDto;
 import com.enb.dto.TicketDto;
-import com.enb.entity.MovieEntity;
 import com.enb.entity.TicketEntity;
 import com.enb.service.MovieService;
 import com.enb.service.TicketService;
@@ -28,16 +27,16 @@ public class MovieTicketController {
     private TicketService ticketService;
 
 	@PostMapping("/movie")
-    public ResponseEntity<MovieDto> createNewMovie(@RequestBody MovieEntity movieentity) {
+    public ResponseEntity<MovieDto> createNewMovie(@RequestBody MovieDto moviedto) {
         
-        return  new ResponseEntity<MovieDto>(movieService.createMovie(movieentity),HttpStatus.CREATED);
+        return  new ResponseEntity<MovieDto>(movieService.createMovie(moviedto),HttpStatus.CREATED);
     }
 
     @PostMapping("/movie/ticket/booking")
-    public ResponseEntity<TicketDto> bookMovieTicket(@RequestBody TicketEntity ticketEntity) {
+    public ResponseEntity<TicketDto> bookMovieTicket(@RequestBody TicketDto ticketdto) {
         
         
-        return new ResponseEntity<TicketDto>(ticketService.createTicket(ticketEntity),HttpStatus.CREATED);
+        return new ResponseEntity<TicketDto>(ticketService.createTicket(ticketdto),HttpStatus.CREATED);
     }
 
     @GetMapping("/movie/{movieId}")

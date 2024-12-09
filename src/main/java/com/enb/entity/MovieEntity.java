@@ -10,9 +10,11 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.OneToMany;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 @Entity(name = "MOVIE_ENTITY")
 @Data
+@NoArgsConstructor
 public class MovieEntity {
 
     @Id
@@ -33,6 +35,16 @@ public class MovieEntity {
 
     @OneToMany(mappedBy = "movie", cascade = CascadeType.ALL)
     private Set<TicketEntity> tickets;
+
+	
+    public MovieEntity(String title, String director, String language, int year) {
+		super();
+		this.title = title;
+		this.director = director;
+		this.language = language;
+		this.year = year;
+		
+	}
 
     // Getters and setters
 }

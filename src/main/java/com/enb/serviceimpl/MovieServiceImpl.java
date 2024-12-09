@@ -1,7 +1,5 @@
 package com.enb.serviceimpl;
 
-import java.util.Optional;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -21,7 +19,10 @@ public class MovieServiceImpl implements MovieService {
     private MovieDto mdto;
 
     @Override
-    public MovieDto createMovie(MovieEntity movieentity) {
+    public MovieDto createMovie(MovieDto moviedto) {
+    	MovieEntity movieentity=new MovieEntity(moviedto.getTitle(), moviedto.getDirector(), moviedto.getLanguage(),
+    			moviedto.getYear());
+    	
     	MovieEntity save = movieRepo.save(movieentity);
     	//MovieEntity save = null;
     	mdto=new MovieDto();

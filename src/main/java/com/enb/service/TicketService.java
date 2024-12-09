@@ -4,7 +4,7 @@ import com.enb.dto.TicketDto;
 import com.enb.entity.TicketEntity;
 
 public interface TicketService {
-    TicketDto createTicket(TicketEntity ticketEntity);
+    TicketDto createTicket(TicketDto ticketdto);
     
     
     
